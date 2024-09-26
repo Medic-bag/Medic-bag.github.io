@@ -1,11 +1,12 @@
 // Project Title
-// Your Name
+// Riley Sane
 // Date
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
-// make pinball idiot
+// make plinko idiot
 
+let score = 0;
 let dropperX = 250;
 let dropperY = 0;
 function setup() {
@@ -17,6 +18,7 @@ function draw() {
   rect(dropperX, dropperY, 50, 50);
   moveDropper();
   drawPegs();
+  scoreFuncs();
 }
 
 function moveDropper() {
@@ -33,14 +35,25 @@ function moveDropper() {
 }
 
 function drawPegs() {
-  for (let y = 70; y < height + 120; y += 120) {
-    for (let x = 60; x < width; x += 60) {
+  for (let y = 90; y < height - 120; y += 120) {
+    for (let x = 30; x < width; x += 60) {
       circle(x, y , 15);
     }
   }
-  for (let y = 130; y < height ; y += 120) {
-    for (let x = 90; x < width - 60; x += 60) {
+  for (let y = 150; y < height ; y += 120) {
+    for (let x = 60; x < width - 30; x += 60) {
       circle(x, y , 15);
     }
   }
+}
+
+function scoreFuncs() {
+  for (let x = 0; x < width; x += width/5) {
+    rect(x, height - 20, width/5, 20);
+  }
+  text("5", width / 2, height - 5);
+  text("5", 120, height - 5);
+  text("5", 240, height - 5);
+  text("5", 480, height - 5);
+  text("5", width, height - 5);
 }
