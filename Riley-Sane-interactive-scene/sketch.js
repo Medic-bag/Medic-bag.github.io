@@ -52,8 +52,8 @@ function scoreFuncs() {
     rect(x, height - 20, width/5, 20);
   }
   text("5", width / 2, height - 5);
-  text("5", 120, height - 5);
-  text("5", 240, height - 5);
-  text("5", 480, height - 5);
-  text("5", width, height - 5);
+  text("5", 60, height - 5);
+  text("5", 180, height - 5);
+  text("5", 420, height - 5);
+  text("5", 540, height - 5);
 }
