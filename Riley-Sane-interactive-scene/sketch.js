@@ -40,7 +40,7 @@ function draw() {
       ballSpawn = false;
     }
   }
-   
+  
 
   
 
@@ -115,8 +115,13 @@ function ball() {
     }
     for (let y = 90; y < height - 120; y += 120) {
       for (let x = 30; x < width; x += 60) {
+        
         pegX = x;
         pegY = y;
+        if (dist(pegX, pegY, ballX, ballY) <= 15) {
+          ySpeed = -ySpeed
+          ballY = height - 15
+        }
       }
     }
     for (let y = 150; y < height ; y += 120) {
@@ -125,6 +130,7 @@ function ball() {
         pegY = y;
         if (dist(pegX, pegY, ballX, ballY) <= 15) {
           ySpeed = -ySpeed
+          ballY = height - 15
         }
       }
     }
