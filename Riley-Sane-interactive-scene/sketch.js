@@ -1,11 +1,13 @@
-// Project Title
+// Plinko
 // Riley Sane
-// Date
+// Tuesday October 1st
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
-// make plinko idiot
 
+let goLeft = true;
+let goRight = true;
+let direction = 1;
 let pegX = 0;
 let pegY = 0;
 let ySpeed = 0;
@@ -19,12 +21,15 @@ let dropperY = 0;
 
 function setup() {
   createCanvas(600, 600);
+  
 }
 
 function draw() {
-  background(220);
+  background(200);
+  
   rect(dropperX, dropperY, 50, 50);
   moveDropper();
+  
   drawPegs();
   scoreFuncs();
   ball();
@@ -35,12 +40,45 @@ function draw() {
     circle(ballX, ballY, 15);
     ySpeed = ySpeed + gravity;
     ballY = ballY + ySpeed;
-    ySpeed = ySpeed * 0.997;
-    if (ballY >= 20) {
-      ballSpawn = false;
+    if (ballX - 7 === 0) {
+      
+      goLeft = false;
+      goRight = true;
+    }
+    else if (ballX + 7 === 600) {
+      goRight = false;
+      goLeft = true;
+    }
+    if (goLeft) {
+      ballX -= 1;
+      
+    }
+    if (goRight) {
+      ballX += 1;
+      
     }
   }
-  
+  if (ballY >= 600-20 && ballSpawn === true) {
+    gravity = 0.1;
+    ySpeed = 0;
+    if (ballX < 120) {
+      score = score * 0.5;
+    }
+    else if (ballX < 240) {
+      score = score * 1.5
+    }
+    else if (ballX < 360) {
+      score = score * 5;
+    }
+    else if (ballX < 480) {
+      score = score * 1.5;
+    }
+    else {
+      score = score * 0.5;
+      
+    }
+    ballSpawn = false;
+  }
 
   
 
@@ -84,35 +122,14 @@ function scoreFuncs() {
 }
 
 function ball() {
-  if (mouseIsPressed) {
-    ballSpawn = true;
-    ballX = dropperX + 25;
-    ballY = dropperY + 25;
-    
-  }
-  if(ballY  > 20 && ballSpawn){
-  
-
-    if (ballX < 120) {
-      if (score >= 2) {
-        score = score * 0.5;
-      }
-    }
-    else if (ballX < 240) {
-      score = score * 1.5
-    }
-    else if (ballX < 360) {
-      score = score * 5;
-    }
-    else if (ballX < 480) {
-      score = score * 1.5;
-    }
-    else {
-      if (score >= 2) {
-        score = score * 0.5;
-      }
+  if (ballSpawn === false) {
+    if (mouseIsPressed) {
+      ballSpawn = true;
+      ballX = dropperX + 25;
+      ballY = dropperY + 25;
       
     }
+  }
     for (let y = 90; y < height - 120; y += 120) {
       for (let x = 30; x < width; x += 60) {
         
@@ -120,7 +137,24 @@ function ball() {
         pegY = y;
         if (dist(pegX, pegY, ballX, ballY) <= 15) {
           ySpeed = -ySpeed
-          ballY = height - 15
+          if (pegX - ballX >= 0) {
+            direction = 2;
+          }
+          else {
+            direction = 0.5;
+          }
+          
+          if (direction > 1) {
+              goRight = false;
+              goLeft = true;
+            
+          }
+          else {
+            goLeft = false;
+            goRight = true;
+            
+          }
+          
         }
       }
     }
@@ -130,12 +164,25 @@ function ball() {
         pegY = y;
         if (dist(pegX, pegY, ballX, ballY) <= 15) {
           ySpeed = -ySpeed
-          ballY = height - 15
+          if (pegX - ballX >= 0) {
+            direction = 2;
+          }
+          else {
+            direction = 0.5;
+          }
+          if (direction > 1) {
+              goRight = false;
+              goLeft = true;
+            
+          }
+          else {
+              goLeft = false;
+              goRight = true;
+            
+          }
         }
       }
     }
-  }
-
+    
 
 }
-
