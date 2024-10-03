@@ -2,6 +2,7 @@
 
 ## Demos
 - [Square Moving Around](square-moving)
+- [Bouncing Balls](bouncing-balls)
 
 
 ## Projects
