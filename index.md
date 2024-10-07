@@ -5,6 +5,6 @@
 - [Bouncing Balls](bouncing-balls)
 - [Generative Art](art)
 - [Perlin Noise Ball](perlin)
-
+- [Terrarin Generation](terrain)
 ## Projects
 - [P5JS Interactive Scene](Riley-Sane-interactive-scene)
