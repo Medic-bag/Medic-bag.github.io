@@ -34,9 +34,9 @@ function draw() {
   scoreFuncs();
   ball();
   // places text on the canvas displaying various information
-  text(score, 20, 20)
-  text("use left and right to move", 20 , 40)
-  text("use left click to spawn ball", 20, 60)
+  text(score, 20, 20);
+  text("use left and right to move", 20 , 40);
+  text("use left click to spawn ball", 20, 60);
   // checks to see if a ball should be on screen, if so draws the ball
   if (ballSpawn === true) {
     circle(ballX, ballY, 15);
@@ -72,7 +72,7 @@ function draw() {
       score = score * 0.5;
     }
     else if (ballX < 240) {
-      score = score * 1.5
+      score = score * 1.5;
     }
     else if (ballX < 360) {
       score = score * 5;
@@ -137,61 +137,61 @@ function ball() {
     }
   }
   // bounces the ball when it hits a peg left if it hits the left half of a peg and right if it hits the right side of a peg
-    for (let y = 90; y < height - 120; y += 120) {
-      for (let x = 30; x < width; x += 60) {
+  for (let y = 90; y < height - 120; y += 120) {
+    for (let x = 30; x < width; x += 60) {
         
-        pegX = x;
-        pegY = y;
-        if (dist(pegX, pegY, ballX, ballY) <= 15) {
-          ySpeed = -ySpeed
-          if (pegX - ballX >= 0) {
-            direction = 2;
-          }
-          else {
-            direction = 0.5;
-          }
+      pegX = x;
+      pegY = y;
+      if (dist(pegX, pegY, ballX, ballY) <= 15) {
+        ySpeed = -ySpeed;
+        if (pegX - ballX >= 0) {
+          direction = 2;
+        }
+        else {
+          direction = 0.5;
+        }
           
-          if (direction > 1) {
-              goRight = false;
-              goLeft = true;
+        if (direction > 1) {
+          goRight = false;
+          goLeft = true;
             
-          }
-          else {
-            goLeft = false;
-            goRight = true;
+        }
+        else {
+          goLeft = false;
+          goRight = true;
             
-          }
+        }
           
+      }
+    }
+  }
+  // calculates where each peg is
+  for (let y = 150; y < height ; y += 120) {
+    for (let x = 60; x < width - 30; x += 60) {
+      pegX = x;
+      pegY = y;
+      // asks if the ball is colliding with the peg, if so, bounces the ball
+      if (dist(pegX, pegY, ballX, ballY) <= 15) {
+        ySpeed = -ySpeed;
+        //determines the direction that the ball bounces
+        if (pegX - ballX >= 0) {
+          direction = 2;
+        }
+        else {
+          direction = 0.5;
+        }
+        //updates two variables to tell the ball to move left or right in the draw() loop
+        if (direction > 1) {
+          goRight = false;
+          goLeft = true;
+            
+        }
+        else {
+          goLeft = false;
+          goRight = true;
+           
         }
       }
     }
-    // calculates where each peg is
-    for (let y = 150; y < height ; y += 120) {
-      for (let x = 60; x < width - 30; x += 60) {
-        pegX = x;
-        pegY = y;
-        // asks if the ball is colliding with the peg, if so, bounces the ball
-        if (dist(pegX, pegY, ballX, ballY) <= 15) {
-          ySpeed = -ySpeed
-          //determines the direction that the ball bounces
-          if (pegX - ballX >= 0) {
-            direction = 2;
-          }
-          else {
-            direction = 0.5;
-          }
-          //updates two variables to tell the ball to move left or right in the draw() loop
-          if (direction > 1) {
-              goRight = false;
-              goLeft = true;
-            
-          }
-          else {
-              goLeft = false;
-              goRight = true;
-            
-          }
-        }
-      }
-    }
+  }
 }
