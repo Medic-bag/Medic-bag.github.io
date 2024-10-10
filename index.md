@@ -6,6 +6,7 @@
 - [Generative Art](art)
 - [Perlin Noise Ball](perlin)
 - [Terrarin Generation](terrain)
+- [Bubble Movement](bubbles)
 ## Projects
 - [P5JS Interactive Scene](Riley-Sane-interactive-scene)
 - [Arrays and Object Notation](arrays-objects)
