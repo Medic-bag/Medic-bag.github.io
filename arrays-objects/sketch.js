@@ -7,6 +7,17 @@
 // make guitar hero idiot
 
 let balls = [];
+let farLeftCircle;
+let farRightCircle;
+let RightCircle;
+let LeftCircle;
+let score = 0;
+let aDown = false;
+let sDown = false;
+let dDown = false;
+let fDown = false;
+
+
 
 function setup() {
   createCanvas(400, windowHeight);
@@ -21,13 +32,78 @@ function draw() {
   ballsMove();
   displayBalls();
   killBalls();
+  pressButtons();
+  displayText();
+}
+
+function displayText() {
+  text(score, 10, 20);
+}
+
+function pressButtons() {
+  if (keyIsPressed) {
+
+    if (!sDown && !dDown && !fDown) {
+      if (key === 'a') {
+        for (let ball of balls) {
+          aDown = true;
+          let theDist = dist(farLeftCircle.x, farLeftCircle.y, ball.x, ball.y);
+          let theIndex = balls.indexOf(ball);
+          if (theDist <= 20) {
+            balls.splice(theIndex, 1);
+            score += 10;
+          }
+        }
+      }
+    }
+
+    if (!aDown && !dDown && ! fDown) {
+      if (key === 's') {
+        for (let ball of balls) {
+          sDown = true;
+          let theDist = dist(LeftCircle.x, LeftCircle.y, ball.x, ball.y);
+          let theIndex = balls.indexOf(ball);
+          if (theDist <= 20) {
+            balls.splice(theIndex, 1);
+            score += 10;
+          }
+        }
+      }
+    }
+
+    if (key === 'd') {
+      for (let ball of balls) {
+        let theDist = dist(RightCircle.x, RightCircle.y, ball.x, ball.y);
+        let theIndex = balls.indexOf(ball);
+        if (theDist <= 20) {
+          balls.splice(theIndex, 1);
+          score += 10;
+        }
+      }
+    }
+
+    if (key === 'f') {
+      for (let ball of balls) {
+        let theDist = dist(farRightCircle.x, farRightCircle.y, ball.x, ball.y);
+        let theIndex = balls.indexOf(ball);
+        if (theDist <= 20) {
+          balls.splice(theIndex, 1);
+          score += 10;
+        }
+      }
+    }
+  }
+  aDown = false;
+  sDown = false;
+  dDown = false;
+  fDown = false;
 }
 
 // removes balls when they hit the bottom of the screen
 function killBalls() {
   for (let ball of balls) {
     if (dist(ball.x, ball.y + 15, ball.x, windowHeight) === 0) {
-      let theIndex = ball.indexOf(ball);
+      let theIndex = balls.indexOf(ball);
       balls.splice(theIndex, 1);
     }
   }
@@ -42,28 +118,28 @@ function ballsMove() {
 
 // creates the buttons that the player controls
 function makeCircles() {
-  let farLeftCircle = {
+  farLeftCircle = {
     x: 80,
     y: windowHeight - 100,
     radius: 40,
   };
   circle(farLeftCircle.x, farLeftCircle.y, farLeftCircle.radius);
   
-  let farRightCircle = {
+  farRightCircle = {
     x: 320,
     y: windowHeight - 100,
     radius: 40,
   };
   circle(farRightCircle.x, farRightCircle.y, farRightCircle.radius);
 
-  let RightCircle = {
+  RightCircle = {
     x: 240,
     y: windowHeight - 100,
     radius: 40,
   };
   circle(RightCircle.x, RightCircle.y, RightCircle.radius);
 
-  let LeftCircle = {
+  LeftCircle = {
     x: 160,
     y: windowHeight - 100,
     radius: 40,
