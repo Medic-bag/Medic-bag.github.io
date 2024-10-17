@@ -12,10 +12,7 @@ let farRightCircle;
 let RightCircle;
 let LeftCircle;
 let score = 0;
-let aDown = false;
-let sDown = false;
-let dDown = false;
-let fDown = false;
+let scoreGiven = false;
 
 
 
@@ -23,7 +20,7 @@ function setup() {
   createCanvas(400, windowHeight);
 
   //spawns a ball every second
-  window.setInterval(spawnBall, 1000);
+  window.setInterval(spawnBall, 500);
 }
 
 function draw() {
@@ -36,32 +33,36 @@ function draw() {
   displayText();
 }
 
+// displays the text for the score and lives
 function displayText() {
   text(score, 10, 20);
+  text(keyIsPressed, 10, 40);
 }
 
+// gives the player score if they press the correct button when a ball is in one of the circles
 function pressButtons() {
   if (keyIsPressed) {
 
-    if (!sDown && !dDown && !fDown) {
+    if (scoreGiven === !true) {
       if (key === 'a') {
         for (let ball of balls) {
-          aDown = true;
           let theDist = dist(farLeftCircle.x, farLeftCircle.y, ball.x, ball.y);
           let theIndex = balls.indexOf(ball);
+          
           if (theDist <= 20) {
             balls.splice(theIndex, 1);
             score += 10;
+            scoreGiven === true;
           }
+          
+          
         }
       }
-    }
 
-    if (!aDown && !dDown && ! fDown) {
+
       if (key === 's') {
         for (let ball of balls) {
-          sDown = true;
-          let theDist = dist(LeftCircle.x, LeftCircle.y, ball.x, ball.y);
+          let theDist = dist(leftCircle.x, leftCircle.y, ball.x, ball.y);
           let theIndex = balls.indexOf(ball);
           if (theDist <= 20) {
             balls.splice(theIndex, 1);
@@ -69,34 +70,34 @@ function pressButtons() {
           }
         }
       }
-    }
-
-    if (key === 'd') {
-      for (let ball of balls) {
-        let theDist = dist(RightCircle.x, RightCircle.y, ball.x, ball.y);
-        let theIndex = balls.indexOf(ball);
-        if (theDist <= 20) {
-          balls.splice(theIndex, 1);
-          score += 10;
+      
+      if (key === 'd') {
+        for (let ball of balls) {
+          let theDist = dist(rightCircle.x, rightCircle.y, ball.x, ball.y);
+          let theIndex = balls.indexOf(ball);
+          if (theDist <= 20) {
+            balls.splice(theIndex, 1);
+            score += 10;
+          }
         }
       }
-    }
 
-    if (key === 'f') {
-      for (let ball of balls) {
-        let theDist = dist(farRightCircle.x, farRightCircle.y, ball.x, ball.y);
-        let theIndex = balls.indexOf(ball);
-        if (theDist <= 20) {
-          balls.splice(theIndex, 1);
-          score += 10;
+      if (key === 'f') {
+        for (let ball of balls) {
+          let theDist = dist(farRightCircle.x, farRightCircle.y, ball.x, ball.y);
+          let theIndex = balls.indexOf(ball);
+          if (theDist <= 20) {
+            balls.splice(theIndex, 1);
+            score += 10;
+          }
         }
       }
     }
   }
-  aDown = false;
-  sDown = false;
-  dDown = false;
-  fDown = false;
+  else {
+    scoreGiven = false;
+  }
+
 }
 
 // removes balls when they hit the bottom of the screen
@@ -112,7 +113,7 @@ function killBalls() {
 // moves the balls
 function ballsMove() {
   for (let ball of balls) {
-    ball.y += 1;
+    ball.y += 3;
   }
 }
 
@@ -124,27 +125,31 @@ function makeCircles() {
     radius: 40,
   };
   circle(farLeftCircle.x, farLeftCircle.y, farLeftCircle.radius);
-  
+  text('A', farLeftCircle.x - 5, farLeftCircle.y + 5);
+
   farRightCircle = {
     x: 320,
     y: windowHeight - 100,
     radius: 40,
   };
   circle(farRightCircle.x, farRightCircle.y, farRightCircle.radius);
+  text('F', farRightCircle.x - 5, farRightCircle.y + 5);
 
-  RightCircle = {
+  rightCircle = {
     x: 240,
     y: windowHeight - 100,
     radius: 40,
   };
-  circle(RightCircle.x, RightCircle.y, RightCircle.radius);
+  circle(rightCircle.x, rightCircle.y, rightCircle.radius);
+  text('D', rightCircle.x - 5, rightCircle.y + 5);
 
-  LeftCircle = {
+  leftCircle = {
     x: 160,
     y: windowHeight - 100,
     radius: 40,
   };
-  circle(LeftCircle.x, LeftCircle.y, LeftCircle.radius);
+  circle(leftCircle.x, leftCircle.y, leftCircle.radius);
+  text('S', leftCircle.x - 5, leftCircle.y + 5);
 }
 
 // creates each balls x, y, and radius
