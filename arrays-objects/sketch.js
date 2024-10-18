@@ -11,10 +11,12 @@ let farLeftCircle;
 let farRightCircle;
 let RightCircle;
 let LeftCircle;
-let score = 0;
+let score = 10;
 let scoreGiven = false;
-
-
+let lives = 4;
+let speed = 3;
+let gameOver = false;
+let highScore = 0;
 
 function setup() {
   createCanvas(400, windowHeight);
@@ -24,88 +26,150 @@ function setup() {
 }
 
 function draw() {
-  background(220);
-  makeCircles();
-  ballsMove();
-  displayBalls();
-  killBalls();
-  pressButtons();
-  displayText();
+  if (gameOver === false) {
+    background(220);
+    makeCircles();
+    getHarder();
+    ballsMove();
+    displayBalls();
+    killBalls();
+    pressButtons();
+    setHS();
+    displayText();
+    endGame();
+  }
+  else {
+    drawEndScreen();
+  }
 }
 
-// displays the text for the score and lives
+// get harder
+function getHarder() {
+  if (score % 1000 === 0) {
+    score += 10;
+    speed += 1;
+  }
+}
+
+// sets highscore when needed
+function setHS() {
+  if (highScore < score) {
+    highScore = score;
+  }
+}
+
+// draws everything needed for the game over screen
+function drawEndScreen() {
+  background(220);
+  rect(100, windowHeight/2 - 25, 200, 50);
+  text('haha you suck. click to restart.', 125, windowHeight/2);
+  restartGame();
+}
+
+// restarts the game when you click on the game over screen
+function restartGame() {
+  if (mouseIsPressed) {
+    lives = 4;
+    score = 0;
+    gameOver = false;
+    balls = [];
+  }
+}
+
+// ends the game when your lives reach 0
+function endGame() {
+  if (lives === 0) {
+    gameOver = true;
+  }
+}
+
+// displays the text for the score, highscore, and lives
 function displayText() {
-  text(score, 10, 20);
-  text(keyIsPressed, 10, 40);
+  text('SCORE: ' + score, 10, 20);
+  text('LIVES: ' + lives, 10, 40 );
+  text('HS: ' + highScore, 10, 60);
 }
 
 // gives the player score if they press the correct button when a ball is in one of the circles
 function pressButtons() {
   if (keyIsPressed) {
 
-    if (scoreGiven === !true) {
-      if (key === 'a') {
-        for (let ball of balls) {
-          let theDist = dist(farLeftCircle.x, farLeftCircle.y, ball.x, ball.y);
-          let theIndex = balls.indexOf(ball);
-          
+    
+    if (key === 'a') {
+      for (let ball of balls) {
+        let theDist = dist(farLeftCircle.x, farLeftCircle.y, ball.x, ball.y);
+        let theIndex = balls.indexOf(ball);
+
+        // checks if score has been given yet for a key press to disable holding down keys
+        if (scoreGiven === false) {
           if (theDist <= 20) {
             balls.splice(theIndex, 1);
             score += 10;
-            scoreGiven === true;
+            scoreGiven = true;
           }
-          
-          
         }
+          
       }
+    }
 
 
-      if (key === 's') {
-        for (let ball of balls) {
-          let theDist = dist(leftCircle.x, leftCircle.y, ball.x, ball.y);
-          let theIndex = balls.indexOf(ball);
+    if (key === 's') {
+      for (let ball of balls) {
+        let theDist = dist(leftCircle.x, leftCircle.y, ball.x, ball.y);
+        let theIndex = balls.indexOf(ball);
+        if (scoreGiven === false) {
           if (theDist <= 20) {
             balls.splice(theIndex, 1);
             score += 10;
+            scoreGiven = true;
           }
         }
       }
+    }
       
-      if (key === 'd') {
-        for (let ball of balls) {
-          let theDist = dist(rightCircle.x, rightCircle.y, ball.x, ball.y);
-          let theIndex = balls.indexOf(ball);
+    if (key === 'd') {
+      for (let ball of balls) {
+        let theDist = dist(rightCircle.x, rightCircle.y, ball.x, ball.y);
+        let theIndex = balls.indexOf(ball);
+        if (scoreGiven === false) {
           if (theDist <= 20) {
             balls.splice(theIndex, 1);
             score += 10;
+            scoreGiven = true;
           }
         }
       }
+    }
 
-      if (key === 'f') {
-        for (let ball of balls) {
-          let theDist = dist(farRightCircle.x, farRightCircle.y, ball.x, ball.y);
-          let theIndex = balls.indexOf(ball);
+    if (key === 'f') {
+      for (let ball of balls) {
+        let theDist = dist(farRightCircle.x, farRightCircle.y, ball.x, ball.y);
+        let theIndex = balls.indexOf(ball);
+        if (scoreGiven === false) {
           if (theDist <= 20) {
             balls.splice(theIndex, 1);
             score += 10;
+            scoreGiven = true;
           }
         }
       }
     }
   }
+  
   else {
     scoreGiven = false;
-  }
 
+  }
 }
 
 // removes balls when they hit the bottom of the screen
 function killBalls() {
   for (let ball of balls) {
-    if (dist(ball.x, ball.y + 15, ball.x, windowHeight) === 0) {
+    if (dist(ball.x, ball.y + 15, ball.x, windowHeight) < speed + 1) {
+      console.log("death");
       let theIndex = balls.indexOf(ball);
       balls.splice(theIndex, 1);
+      lives -= 1;
     }
   }
 }
@@ -113,7 +177,7 @@ function killBalls() {
 // moves the balls
 function ballsMove() {
   for (let ball of balls) {
-    ball.y += 3;
+    ball.y += speed;
   }
 }
 
