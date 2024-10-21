@@ -71,6 +71,7 @@ function restartGame() {
   if (mouseIsPressed) {
     lives = 4;
     score = 0;
+    speed = 3;
     gameOver = false;
     balls = [];
   }
@@ -78,7 +79,7 @@ function restartGame() {
 
 // ends the game when your lives reach 0
 function endGame() {
-  if (lives === 0) {
+  if (lives < 1) {
     gameOver = true;
   }
 }
