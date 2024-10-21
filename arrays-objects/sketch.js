@@ -4,7 +4,7 @@
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
-// make guitar hero idiot
+
 
 let balls = [];
 let farLeftCircle;
@@ -94,8 +94,6 @@ function displayText() {
 // gives the player score if they press the correct button when a ball is in one of the circles
 function pressButtons() {
   if (keyIsPressed) {
-
-    
     if (key === 'a') {
       for (let ball of balls) {
         let theDist = dist(farLeftCircle.x, farLeftCircle.y, ball.x, ball.y);
@@ -112,7 +110,6 @@ function pressButtons() {
           
       }
     }
-
 
     if (key === 's') {
       for (let ball of balls) {
@@ -159,7 +156,6 @@ function pressButtons() {
   
   else {
     scoreGiven = false;
-
   }
 }
 
@@ -217,7 +213,7 @@ function makeCircles() {
   text('S', leftCircle.x - 5, leftCircle.y + 5);
 }
 
-// creates each balls x, y, and radius
+// creates each ball's x, y, and radius
 function spawnBall() {
   let someBall = {
     x: randBallX(),
