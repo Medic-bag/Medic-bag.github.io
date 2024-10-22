@@ -7,6 +7,7 @@
 - [Perlin Noise Ball](perlin)
 - [Terrarin Generation](terrain)
 - [Bubble Movement](bubbles)
+- [Grid Demo](11-grid)
 ## Projects
 - [P5JS Interactive Scene](Riley-Sane-interactive-scene)
 - [Arrays and Object Notation](arrays-objects)
