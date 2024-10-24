@@ -11,7 +11,7 @@
 
 let grid;
 let cellSize;
-const GRID_SIZE = 20;
+const GRID_SIZE = 10;
 
 function setup() {
   
@@ -47,18 +47,21 @@ function keyPressed() {
   if (key === 'r'){
     grid = genEmptyGrid(GRID_SIZE, GRID_SIZE);
   }
+  if (key === 'q') {
+    let x = Math.floor(mouseX/cellSize);
+    let y = Math.floor(mouseY/cellSize);
+    toggleCell(x,y);
+    toggleCell(x + 1,y);
+    toggleCell(x - 1,y);
+    toggleCell(x,y + 1);
+    toggleCell(x,y - 1);
+    
+    
+  }
 }
 
 function mousePressed() {
-  let x = Math.floor(mouseX/cellSize);
-  let y = Math.floor(mouseY/cellSize);
-  toggleCell(x,y);
-  toggleCell(x + 1,y);
-  toggleCell(x - 1,y);
-  toggleCell(x,y + 1);
-  toggleCell(x,y - 1);
-  
-  
+
 }
 
 function toggleCell(x,y) {
