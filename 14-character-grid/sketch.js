@@ -76,8 +76,6 @@ function keyPressed() {
 }
 
 function movePlayer(x,y) {
-
-
   if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE && grid[y][x] === OPEN_TILE) {
     let oldX = thePlayer.x;
     let oldY = thePlayer.y;
