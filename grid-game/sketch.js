@@ -25,6 +25,7 @@ function setup() {
   grid = genBoard(boardSize, boardSize);
   grid[thePlayer.y][thePlayer.x] = PLAYER;
   genEnemies();
+  
 }
 
 function mousePressed() {
@@ -56,6 +57,7 @@ function mousePressed() {
 function draw() {
   background(220);
   displayBoard();
+  enemyMove();
 }
 
 function displayBoard() {
@@ -97,16 +99,47 @@ function genBoard(cols, rows) {
 
 function genEnemies() {
   for (let l = 0; l < 3; l++) {
+    let randX = genRandPos();
+    let randY = genRandPos();
+    grid[randY][randX] = ENEMY;
     let someEnemy = {
-      x: genRandPos(),
-      y: genRandPos(),
+      x: randX,
+      y: randY,
     };
-    grid[genRandPos()][genRandPos()] = ENEMY;
+    enemies.push(someEnemy);
   }
-  
 }
 
 function genRandPos() {
   let randPos = Math.floor(random(9));
   return randPos;
+}
+
+function enemyMove() {
+  if (playersTurn === false) {
+    for (let enemy in enemies) {
+      let enemyOldX = enemy.x;
+      let enemyOldY = enemy.y;
+      if (thePlayer.x - enemy.x < 0) {
+        enemy.x -= 1;
+      }
+      else if (thePlayer.x - enemy.x > 0) {
+        enemy.x += 1;
+      }
+      if (thePlayer.y - enemy.y < 0) {
+        enemy.y -= 1;
+      }
+      else if (thePlayer.y - enemy.y > 0) {
+        enemy.y += 1;
+      }
+      grid[enemy.y][enemy.x] = ENEMY;
+      if (grid[enemyOldY][enemyOldX + 1] === BLACK || grid[enemyOldY][enemyOldX - 1] === BLACK) {
+        grid[enemyOldY][enemyOldX] = WHITE;
+      }
+      else {
+        grid[enemyOldY][enemyOldX] = BLACK;
+      }
+    }
+    playersTurn = true;
+  }
 }
