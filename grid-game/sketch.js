@@ -19,6 +19,7 @@ let thePlayer = {
 };
 let playersTurn = true;
 let enemies = [];
+let gameState = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -26,6 +27,18 @@ function setup() {
   grid[thePlayer.y][thePlayer.x] = PLAYER;
   genEnemies();
   
+}
+
+
+function draw() {
+  if (!isGameOver()) {
+    background(220);
+    displayBoard();
+    enemyMove();
+  }
+  else {
+    endScreen();
+  }
 }
 
 function mousePressed() {
@@ -37,7 +50,7 @@ function mousePressed() {
 
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
-        if (yPos === thePlayer.y + i && xPos === thePlayer.x + j && (xPos !== thePlayer.x || yPos !== thePlayer.y)) {
+        if (yPos === thePlayer.y + i && xPos === thePlayer.x + j && (xPos !== thePlayer.x || yPos !== thePlayer.y) && xPos < 9 && yPos < 9) {
           thePlayer.x = xPos;
           thePlayer.y = yPos;
           grid[thePlayer.y][thePlayer.x] = PLAYER;
@@ -54,10 +67,42 @@ function mousePressed() {
   }
 }
 
-function draw() {
-  background(220);
-  displayBoard();
-  enemyMove();
+function keyPressed() {
+  if (key === "a") {
+    let xPos = Math.floor(mouseX/CELL_SIZE);
+    let yPos = Math.floor(mouseY/CELL_SIZE);
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        if (yPos === thePlayer.y + i && xPos === thePlayer.x + j && (xPos !== thePlayer.x || yPos !== thePlayer.y) && xPos < 9 && yPos < 9) {
+          if (grid[yPos][xPos + 1] === BLACK || grid[yPos][xPos - 1] === BLACK || grid[yPos + 1][xPos] === BLACK || grid[yPos - 1][xPos === BLACK]) {
+            grid[yPos][xPos] = WHITE;
+          }
+          if (grid[yPos][xPos + 1] === WHITE || grid[yPos][xPos - 1] === WHITE || grid[yPos + 1][xPos] === WHITE || grid[yPos - 1][xPos === WHITE]) {
+            grid[yPos][xPos] = BLACK;
+          }
+        }
+      }
+    }
+  }
+  
+}
+
+function endScreen() {
+  fill("white");
+  square(0, 0, CELL_SIZE*boardSize);
+  fill("red");
+  text("refresh to restart", 240, 240);
+}
+
+function isGameOver() {
+  for (let i = 0; i < boardSize; i++) {
+    for (let j = 0; j < boardSize; j++) {
+      if (grid[i][j] === PLAYER) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 function displayBoard() {
@@ -117,9 +162,10 @@ function genRandPos() {
 
 function enemyMove() {
   if (playersTurn === false) {
-    for (let enemy in enemies) {
+    for (let enemy of enemies) {
       let enemyOldX = enemy.x;
       let enemyOldY = enemy.y;
+
       if (thePlayer.x - enemy.x < 0) {
         enemy.x -= 1;
       }
@@ -132,6 +178,7 @@ function enemyMove() {
       else if (thePlayer.y - enemy.y > 0) {
         enemy.y += 1;
       }
+
       grid[enemy.y][enemy.x] = ENEMY;
       if (grid[enemyOldY][enemyOldX + 1] === BLACK || grid[enemyOldY][enemyOldX - 1] === BLACK) {
         grid[enemyOldY][enemyOldX] = WHITE;
