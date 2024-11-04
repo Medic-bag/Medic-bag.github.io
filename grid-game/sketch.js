@@ -26,7 +26,7 @@ function setup() {
   grid = genBoard(boardSize, boardSize);
   grid[thePlayer.y][thePlayer.x] = PLAYER;
   genEnemies();
-  
+  console.log(0 % 2);
 }
 
 
@@ -51,15 +51,28 @@ function mousePressed() {
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
         if (yPos === thePlayer.y + i && xPos === thePlayer.x + j && (xPos !== thePlayer.x || yPos !== thePlayer.y) && xPos < 9 && yPos < 9) {
+
+          
           thePlayer.x = xPos;
           thePlayer.y = yPos;
-          grid[thePlayer.y][thePlayer.x] = PLAYER;
-          if (grid[oldY][oldX + 1] === BLACK || grid[oldY][oldX - 1] === BLACK) {
+          
+
+          if (oldX % 2 === 0) {
+            if (grid[oldY][0] === PLAYER) {
+              grid[oldY][oldX] = grid[oldY][boardSize - 1];
+            }
+            else {
+              grid[oldY][oldX] = grid[oldY][0];
+            }
+            
+          }
+          else if (grid[oldY][0] === BLACK) {
             grid[oldY][oldX] = WHITE;
           }
           else {
             grid[oldY][oldX] = BLACK;
           }
+          grid[thePlayer.y][thePlayer.x] = PLAYER;
           playersTurn = false;
         }
       }
@@ -82,6 +95,13 @@ function keyPressed() {
           }
         }
       }
+      for (let enemy of enemies) {
+        if (dist(enemy.x, enemy.y, xPos, yPos) === 0)  {
+          let theIndex = enemies.indexOf(enemy);
+          enemies.splice(theIndex, 1);
+          playersTurn = false;
+        }
+      }
     }
   }
   
@@ -95,14 +115,12 @@ function endScreen() {
 }
 
 function isGameOver() {
-  for (let i = 0; i < boardSize; i++) {
-    for (let j = 0; j < boardSize; j++) {
-      if (grid[i][j] === PLAYER) {
-        return false;
-      }
+  for (let enemy of enemies) {
+    if (enemy.x === thePlayer.x && enemy.y === thePlayer.y) {
+      return true;
     }
   }
-  return true;
+  return false;
 }
 
 function displayBoard() {
@@ -179,13 +197,23 @@ function enemyMove() {
         enemy.y += 1;
       }
 
-      grid[enemy.y][enemy.x] = ENEMY;
-      if (grid[enemyOldY][enemyOldX + 1] === BLACK || grid[enemyOldY][enemyOldX - 1] === BLACK) {
+      if (enemyOldX % 2 === 0) {
+        if (grid[enemyOldY][0] === PLAYER) {
+          grid[enemyOldY][enemyOldX] = grid[enemyOldY][boardSize - 1];
+        }
+        else {
+          grid[enemyOldY][enemyOldX] = grid[enemyOldY][0];
+        }
+        
+      }
+      else if (grid[enemyOldY][0] === BLACK) {
         grid[enemyOldY][enemyOldX] = WHITE;
       }
       else {
         grid[enemyOldY][enemyOldX] = BLACK;
       }
+      grid[enemy.y][enemy.x] = ENEMY;
+
     }
     playersTurn = true;
   }
