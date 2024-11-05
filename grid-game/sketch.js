@@ -15,7 +15,7 @@ const PLAYER = 2;
 const ENEMY = 3;
 let thePlayer = {
   x: 4,
-  y: 7,
+  y: 5,
 };
 let playersTurn = true;
 let enemies = [];
@@ -58,8 +58,14 @@ function mousePressed() {
           
 
           if (oldX % 2 === 0) {
-            if (grid[oldY][0] === PLAYER) {
-              grid[oldY][oldX] = grid[oldY][boardSize - 1];
+            if (grid[oldY][0] === PLAYER || grid[oldY][0] === ENEMY) {
+              if (grid[oldY][0] === PLAYER  || grid[oldY][0] === ENEMY && grid[oldY][8] === PLAYER || grid[oldY][8] === ENEMY) {
+                grid[oldY][oldX] = grid[boardSize - 1][oldX];
+              }
+              else {
+                grid[oldY][oldX] = grid[oldY][boardSize - 1];
+              }
+              
             }
             else {
               grid[oldY][oldX] = grid[oldY][0];
@@ -164,6 +170,9 @@ function genEnemies() {
   for (let l = 0; l < 3; l++) {
     let randX = genRandPos();
     let randY = genRandPos();
+    if (randY ===8 ) {
+      randY -= 1;
+    }
     grid[randY][randX] = ENEMY;
     let someEnemy = {
       x: randX,
@@ -198,8 +207,13 @@ function enemyMove() {
       }
 
       if (enemyOldX % 2 === 0) {
-        if (grid[enemyOldY][0] === PLAYER) {
-          grid[enemyOldY][enemyOldX] = grid[enemyOldY][boardSize - 1];
+        if (grid[enemyOldY][0] === ENEMY) {
+          if (grid[enemyOldY][0] === PLAYER  || grid[enemyOldY][0] === ENEMY && grid[enemyOldY][8] === PLAYER || grid[enemyOldY][8] === ENEMY) {
+            grid[enemyOldY][enemyOldX] = grid[boardSize - 1][enemyOldX];
+          }
+          else {
+            grid[enemyOldY][enemyOldX] = grid[enemyOldY][boardSize - 1];
+          }
         }
         else {
           grid[enemyOldY][enemyOldX] = grid[enemyOldY][0];
