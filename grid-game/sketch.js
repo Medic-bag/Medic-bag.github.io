@@ -4,7 +4,10 @@
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
+// Chase sucks at this game
 
+let level = 3;
+let score = 0;
 const CELL_SIZE = 60;
 let boardSize = 9;
 let tileIsBlack = true;
@@ -26,18 +29,38 @@ function setup() {
   grid = genBoard(boardSize, boardSize);
   grid[thePlayer.y][thePlayer.x] = PLAYER;
   genEnemies();
-  console.log(0 % 2);
 }
-
 
 function draw() {
   if (!isGameOver()) {
     background(220);
     displayBoard();
     enemyMove();
+    respawnEnemies();
+    drawText();
   }
   else {
     endScreen();
+  }
+}
+
+function levelUp() {
+  if (score === 100) {
+    score += 10;
+    level++;
+  }
+}
+
+function drawText() {
+  fill("black");
+  text ("Score: " + score, 560, 100);
+  text ("Press the A key on an enemy next to you to kill it.", 560, 150);
+  text ("Press mouse button 1 on an adjacent tile to move to it.", 560, 200);
+}
+
+function respawnEnemies() {
+  if (enemies.length === 0) {
+    genEnemies();
   }
 }
 
@@ -59,7 +82,7 @@ function mousePressed() {
 
           if (oldX % 2 === 0) {
             if (grid[oldY][0] === PLAYER || grid[oldY][0] === ENEMY) {
-              if (grid[oldY][0] === PLAYER  || grid[oldY][0] === ENEMY && grid[oldY][8] === PLAYER || grid[oldY][8] === ENEMY) {
+              if ((grid[oldY][0] === PLAYER  || grid[oldY][0] === ENEMY) && (grid[oldY][boardSize - 1] === PLAYER || grid[oldY][boardSize - 1] === ENEMY)) {
                 grid[oldY][oldX] = grid[boardSize - 1][oldX];
               }
               else {
@@ -105,12 +128,13 @@ function keyPressed() {
         if (dist(enemy.x, enemy.y, xPos, yPos) === 0)  {
           let theIndex = enemies.indexOf(enemy);
           enemies.splice(theIndex, 1);
+          score += 10;
           playersTurn = false;
         }
       }
     }
   }
-  
+
 }
 
 function endScreen() {
@@ -167,11 +191,15 @@ function genBoard(cols, rows) {
 }
 
 function genEnemies() {
-  for (let l = 0; l < 3; l++) {
+  for (let l = 0; l < level; l++) {
     let randX = genRandPos();
     let randY = genRandPos();
     if (randY ===8 ) {
       randY -= 1;
+    }
+    if (randX === thePlayer.x && randY === thePlayer.y) {
+      randX = genRandPos();
+      rendY = genRandPos();
     }
     grid[randY][randX] = ENEMY;
     let someEnemy = {
