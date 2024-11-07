@@ -6,7 +6,8 @@
 // - describe what you did to take this project "above and beyond"
 // Chase sucks at this game
 
-let level = 3;
+let level = 1;
+let scoreNeeded = 20;
 let score = 0;
 const CELL_SIZE = 60;
 let boardSize = 9;
@@ -36,6 +37,7 @@ function draw() {
     background(220);
     displayBoard();
     enemyMove();
+    levelUp();
     respawnEnemies();
     drawText();
   }
@@ -45,17 +47,19 @@ function draw() {
 }
 
 function levelUp() {
-  if (score === 100) {
+  if (score >= scoreNeeded) {
     score += 10;
     level++;
+    scoreNeeded = scoreNeeded * (enemies.length + 1);
   }
 }
 
 function drawText() {
   fill("black");
-  text ("Score: " + score, 560, 100);
-  text ("Press the A key on an enemy next to you to kill it.", 560, 150);
-  text ("Press mouse button 1 on an adjacent tile to move to it.", 560, 200);
+  text ("XP: " + score + "/" + scoreNeeded, 560, 100);
+  text ("Level: " + level, 560, 150);
+  text ("Press the A key on an enemy next to you to kill it.", 560, 200);
+  text ("Press mouse button 1 on an adjacent tile to move to it.", 560, 250);
 }
 
 function respawnEnemies() {
@@ -74,12 +78,8 @@ function mousePressed() {
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
         if (yPos === thePlayer.y + i && xPos === thePlayer.x + j && (xPos !== thePlayer.x || yPos !== thePlayer.y) && xPos < 9 && yPos < 9) {
-
-          
           thePlayer.x = xPos;
           thePlayer.y = yPos;
-          
-
           if (oldX % 2 === 0) {
             if (grid[oldY][0] === PLAYER || grid[oldY][0] === ENEMY) {
               if ((grid[oldY][0] === PLAYER  || grid[oldY][0] === ENEMY) && (grid[oldY][boardSize - 1] === PLAYER || grid[oldY][boardSize - 1] === ENEMY)) {
@@ -199,7 +199,7 @@ function genEnemies() {
     }
     if (randX === thePlayer.x && randY === thePlayer.y) {
       randX = genRandPos();
-      rendY = genRandPos();
+      randY = genRandPos();
     }
     grid[randY][randX] = ENEMY;
     let someEnemy = {
