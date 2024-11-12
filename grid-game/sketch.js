@@ -80,22 +80,7 @@ function mousePressed() {
         if (yPos === thePlayer.y + i && xPos === thePlayer.x + j && (xPos !== thePlayer.x || yPos !== thePlayer.y) && xPos < 9 && yPos < 9) {
           thePlayer.x = xPos;
           thePlayer.y = yPos;
-          if (oldX % 2 === 0) {
-            if (grid[oldY][0] === PLAYER || grid[oldY][0] === ENEMY) {
-              if ((grid[oldY][0] === PLAYER  || grid[oldY][0] === ENEMY) && (grid[oldY][boardSize - 1] === PLAYER || grid[oldY][boardSize - 1] === ENEMY)) {
-                grid[oldY][oldX] = grid[boardSize - 1][oldX];
-              }
-              else {
-                grid[oldY][oldX] = grid[oldY][boardSize - 1];
-              }
-              
-            }
-            else {
-              grid[oldY][oldX] = grid[oldY][0];
-            }
-            
-          }
-          else if (grid[oldY][0] === BLACK) {
+          if (oldX % 2 === oldY % 2) {
             grid[oldY][oldX] = WHITE;
           }
           else {
@@ -116,10 +101,10 @@ function keyPressed() {
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
         if (yPos === thePlayer.y + i && xPos === thePlayer.x + j && (xPos !== thePlayer.x || yPos !== thePlayer.y) && xPos < 9 && yPos < 9) {
-          if (grid[yPos][xPos + 1] === BLACK || grid[yPos][xPos - 1] === BLACK || grid[yPos + 1][xPos] === BLACK || grid[yPos - 1][xPos === BLACK]) {
+          if (xPos % 2 === yPos % 2) {
             grid[yPos][xPos] = WHITE;
           }
-          if (grid[yPos][xPos + 1] === WHITE || grid[yPos][xPos - 1] === WHITE || grid[yPos + 1][xPos] === WHITE || grid[yPos - 1][xPos === WHITE]) {
+          else {
             grid[yPos][xPos] = BLACK;
           }
         }
@@ -194,9 +179,6 @@ function genEnemies() {
   for (let l = 0; l < level; l++) {
     let randX = genRandPos();
     let randY = genRandPos();
-    if (randY ===8 ) {
-      randY -= 1;
-    }
     if (randX === thePlayer.x && randY === thePlayer.y) {
       randX = genRandPos();
       randY = genRandPos();
@@ -234,26 +216,13 @@ function enemyMove() {
         enemy.y += 1;
       }
 
-      if (enemyOldX % 2 === 0) {
-        if (grid[enemyOldY][0] === ENEMY) {
-          if (grid[enemyOldY][0] === PLAYER  || grid[enemyOldY][0] === ENEMY && grid[enemyOldY][8] === PLAYER || grid[enemyOldY][8] === ENEMY) {
-            grid[enemyOldY][enemyOldX] = grid[boardSize - 1][enemyOldX];
-          }
-          else {
-            grid[enemyOldY][enemyOldX] = grid[enemyOldY][boardSize - 1];
-          }
-        }
-        else {
-          grid[enemyOldY][enemyOldX] = grid[enemyOldY][0];
-        }
-        
-      }
-      else if (grid[enemyOldY][0] === BLACK) {
+      if (enemyOldX % 2 === enemyOldY % 2) {
         grid[enemyOldY][enemyOldX] = WHITE;
       }
       else {
         grid[enemyOldY][enemyOldX] = BLACK;
       }
+      
       grid[enemy.y][enemy.x] = ENEMY;
 
     }
