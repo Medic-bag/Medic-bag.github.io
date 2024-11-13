@@ -10,6 +10,7 @@
 - [Grid Demo](11-grid)
 - [Game Of Life](12-game-of-life)
 - [rectangular grid](13-rect-grid)
+- [walker OOP](16-walker-oop)
 ## Projects
 - [P5JS Interactive Scene](Riley-Sane-interactive-scene)
 - [Arrays and Object Notation](arrays-objects)

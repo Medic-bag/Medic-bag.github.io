@@ -1,6 +1,6 @@
-// Project Title
-// Your Name
-// Date
+// SWAGALICOUS GRID GAME 
+// Riley Sane
+// Friday, nov 15th, 2024 
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
@@ -80,6 +80,7 @@ function mousePressed() {
         if (yPos === thePlayer.y + i && xPos === thePlayer.x + j && (xPos !== thePlayer.x || yPos !== thePlayer.y) && xPos < 9 && yPos < 9) {
           thePlayer.x = xPos;
           thePlayer.y = yPos;
+          
           if (oldX % 2 === oldY % 2) {
             grid[oldY][oldX] = WHITE;
           }
