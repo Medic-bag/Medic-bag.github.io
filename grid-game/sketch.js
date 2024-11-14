@@ -3,7 +3,7 @@
 // Friday, nov 15th, 2024 
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// made a competent AI for the enemies
 // Chase sucks at this game
 
 let level = 1;
@@ -46,6 +46,7 @@ function draw() {
   }
 }
 
+// increases the level aka amount of enemies and the xp needed to level up
 function levelUp() {
   if (score >= scoreNeeded) {
     score += 10;
@@ -53,6 +54,7 @@ function levelUp() {
     scoreNeeded = scoreNeeded * (enemies.length + 1);
   }
 }
+
 
 function drawText() {
   fill("black");
@@ -62,12 +64,14 @@ function drawText() {
   text ("Press mouse button 1 on an adjacent tile to move to it.", 560, 250);
 }
 
+// respawns the enemies if there are none left
 function respawnEnemies() {
   if (enemies.length === 0) {
     genEnemies();
   }
 }
 
+// moves the player when they click on any adjacent tiles
 function mousePressed() {
   if (playersTurn) {
     let xPos = Math.floor(mouseX/CELL_SIZE);
@@ -81,6 +85,7 @@ function mousePressed() {
           thePlayer.x = xPos;
           thePlayer.y = yPos;
           
+          // checks if the tile that is being left should be black or white
           if (oldX % 2 === oldY % 2) {
             grid[oldY][oldX] = WHITE;
           }
@@ -95,6 +100,7 @@ function mousePressed() {
   }
 }
 
+// killas an enemy in a adjacent tile if you hover over it with the mouse and press the A key
 function keyPressed() {
   if (key === "a") {
     let xPos = Math.floor(mouseX/CELL_SIZE);
@@ -123,6 +129,7 @@ function keyPressed() {
 
 }
 
+// displays the end screen if you die
 function endScreen() {
   fill("white");
   square(0, 0, CELL_SIZE*boardSize);
@@ -130,6 +137,7 @@ function endScreen() {
   text("refresh to restart", 240, 240);
 }
 
+// checks if an enemy collides with the player, if so end the game
 function isGameOver() {
   for (let enemy of enemies) {
     if (enemy.x === thePlayer.x && enemy.y === thePlayer.y) {
@@ -139,6 +147,7 @@ function isGameOver() {
   return false;
 }
 
+// displays the board, player, and enemies according to the grid
 function displayBoard() {
   for (let y = 0; y < boardSize; y++) {
     for (let x = 0; x < boardSize; x++) {
@@ -159,6 +168,7 @@ function displayBoard() {
   }
 }
 
+// creates the checkerboard
 function genBoard(cols, rows) {
   let newGrid = [];
   for (let y = 0; y < cols; y++) {
@@ -176,6 +186,7 @@ function genBoard(cols, rows) {
   return newGrid;
 }
 
+// generates enemies (amount is equal to the level) with  random X and Y values
 function genEnemies() {
   for (let l = 0; l < level; l++) {
     let randX = genRandPos();
@@ -193,11 +204,13 @@ function genEnemies() {
   }
 }
 
+// chooses a random positon in the grid for the generation of the enemies
 function genRandPos() {
   let randPos = Math.floor(random(9));
   return randPos;
 }
 
+// moves the enemies towards the player in the most optimal way
 function enemyMove() {
   if (playersTurn === false) {
     for (let enemy of enemies) {
