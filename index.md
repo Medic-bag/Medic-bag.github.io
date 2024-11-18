@@ -11,6 +11,7 @@
 - [Game Of Life](12-game-of-life)
 - [rectangular grid](13-rect-grid)
 - [walker OOP](16-walker-oop)
+- [fireworks OOP](18-fireworks)
 ## Projects
 - [P5JS Interactive Scene](Riley-Sane-interactive-scene)
 - [Arrays and Object Notation](arrays-objects)
