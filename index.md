@@ -12,6 +12,7 @@
 - [rectangular grid](13-rect-grid)
 - [walker OOP](16-walker-oop)
 - [fireworks OOP](18-fireworks)
+- [connected nodes oop](19-nodes)
 ## Projects
 - [P5JS Interactive Scene](Riley-Sane-interactive-scene)
 - [Arrays and Object Notation](arrays-objects)
