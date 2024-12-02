@@ -13,6 +13,7 @@
 - [walker OOP](16-walker-oop)
 - [fireworks OOP](18-fireworks)
 - [connected nodes oop](19-nodes)
+- [local storage demo](21-local-storage)
 ## Projects
 - [P5JS Interactive Scene](Riley-Sane-interactive-scene)
 - [Arrays and Object Notation](arrays-objects)
