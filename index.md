@@ -15,6 +15,7 @@
 - [connected nodes oop](19-nodes)
 - [local storage demo](21-local-storage)
 - [OOP inheritance demo](22-inheritance)
+- [Fractal Circles](23-circles)
 ## Projects
 - [P5JS Interactive Scene](Riley-Sane-interactive-scene)
 - [Arrays and Object Notation](arrays-objects)
